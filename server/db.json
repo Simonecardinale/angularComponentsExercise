@@ -1,0 +1,75 @@
+{
+  "expenses": [
+    {
+      "id": "1",
+      "description": "Spesa supermercato",
+      "amount": 45.5,
+      "category": "Alimentari",
+      "date": "2025-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "description": "Cena fuori",
+      "amount": 30,
+      "category": "Ristoranti",
+      "date": "2025-02-04"
+    },
+    {
+      "id": "7",
+      "description": "aa",
+      "amount": "22",
+      "category": "alasn",
+      "date": "2025-02-04T23:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "description": "aa",
+      "amount": "88",
+      "category": "jhbjh",
+      "date": "2025-02-17T23:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "description": "Test",
+      "amount": "76",
+      "category": "aa",
+      "date": "2025-02-23T23:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "description": "Test2",
+      "amount": 122,
+      "category": "Test",
+      "date": "2025-02-26T23:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "description": "Test3",
+      "amount": 56,
+      "category": "Test",
+      "date": "2025-02-27T23:00:00.000Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Alimentari"
+    },
+    {
+      "id": "2",
+      "name": "Trasporti"
+    },
+    {
+      "id": "3",
+      "name": "Ristoranti"
+    },
+    {
+      "id": "4",
+      "name": "Intrattenimento"
+    },
+    {
+      "id": "5",
+      "name": "Salute"
+    }
+  ]
+}

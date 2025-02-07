@@ -1,16 +1,38 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, signal} from '@angular/core';
+import {NavbarComponent} from './components/navbar.component';
+import {ExpenseListComponent} from './components/expense-list.component';
+import {ModalExpensesComponent} from './components/modal-expenses.component';
+import {Expense} from '../models/expenses';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [NavbarComponent, ExpenseListComponent, ModalExpensesComponent],
   template: `
-    <h1>Welcome to {{title}}!</h1>
+    <app-navbar />
+    <app-expense-list
+      (isModalVisible)="handleModalStatus($event)"
+      (visibleChange)="handleModalStatus($event)"
+      [modalStatus]="modalStatus()"/>
+    <app-modal-expenses
+      [visible]="modalStatus()"
+      (visibleChange)="handleModalStatus($event)"/>
 
-    <router-outlet />
   `,
   styles: [],
 })
 export class AppComponent {
-  title = 'angular-expense-tracker-exercise';
+
+  modalStatus = signal<ModalStatus>({isOpen: false, expense: null, action: null});
+
+  handleModalStatus(event: ModalStatus) {
+    this.modalStatus.set({isOpen: event.isOpen, expense: event.expense, action: event.action});
+  }
 }
+
+export type ModalStatus = {
+  isOpen: boolean;
+  expense: Expense | null;
+  action: ActionToDo
+}
+
+export type ActionToDo = "add" | "edit" | "delete" | null
