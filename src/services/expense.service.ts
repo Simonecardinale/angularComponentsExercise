@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Expense} from '../models/expenses';
-import {concatMap, map, Observable, switchMap} from 'rxjs';
+import {concatMap, map, Observable, shareReplay, switchMap} from 'rxjs';
 import {FormGroup} from '@angular/forms';
 import {ActionToDo} from '../app/app.component';
 
@@ -27,6 +27,17 @@ export class ExpenseService {
     return this.http.delete<Expense>(`http://localhost:3000/expenses/${id}`)
   }
 
+  getAllCategories(): Observable<string[]> {
+    return this.getAllExpenses()
+      .pipe(
+        map((items) => [
+          ...new Set(
+            items.filter(item => item.category)
+              .map(el => el.category)
+          )
+        ])
+      )
+  }
 
   handleExpenseAction(form: FormGroup, action: ActionToDo, id?: string) {
     if(form.valid){

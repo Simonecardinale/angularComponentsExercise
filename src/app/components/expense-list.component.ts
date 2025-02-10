@@ -53,22 +53,32 @@ import {ActionToDo, ModalStatus} from '../app.component';
 })
 export class ExpenseListComponent {
   expenses = signal<Expense[]>([])
+  expensesCopy: Expense[] = [];
   expensesService = inject(ExpenseService)
   isModalVisible = output<ModalStatus>()
   modalStatus = input<ModalStatus>()
   visibleChange = output<ModalStatus>()
+  selectedCategory = input<string | null>()
 
 
   constructor() {
     effect(() => {
-      console.log(this.modalStatus())
-      if(!this.modalStatus()?.action !== null) {
+      if(!this.modalStatus()?.action !== null && this.selectedCategory() === null) {
         this.expensesService.getAllExpenses().subscribe({
           next: results => {
             this.expenses.set(results)
+            this.expensesCopy = [...results]
           }
         })
       }
+
+      if(!!this.selectedCategory()) {
+        console.log(this.expensesCopy)
+        const results = this.expensesCopy.filter(elem => elem.category === this.selectedCategory())
+        console.log(results)
+        this.expenses.set(results)
+      }
+
     });
   }
 
