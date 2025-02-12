@@ -1,4 +1,4 @@
-import {Component, effect, inject, input, linkedSignal, output, signal} from '@angular/core';
+import {Component, computed, effect, inject, input, linkedSignal, output, signal} from '@angular/core';
 import {PopoverModule} from 'primeng/popover';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
@@ -21,7 +21,7 @@ import {ActionToDo, ModalStatus} from '../app.component';
       </div>
 
       <div class="card mt-5">
-        <p-table [value]="expenses()" [tableStyle]="{ 'min-width': '50rem' }" [rows]="5">
+        <p-table id="expenses-list" [value]="filteredExpenses()" [tableStyle]="{ 'min-width': '50rem' }" [rows]="5">
           <ng-template #header>
             <tr>
               <th class="w-1/6">Id</th>
@@ -53,7 +53,6 @@ import {ActionToDo, ModalStatus} from '../app.component';
 })
 export class ExpenseListComponent {
   expenses = signal<Expense[]>([])
-  expensesCopy: Expense[] = [];
   expensesService = inject(ExpenseService)
   isModalVisible = output<ModalStatus>()
   modalStatus = input<ModalStatus>()
@@ -61,23 +60,33 @@ export class ExpenseListComponent {
   selectedCategory = input<string | null>()
 
 
+  filteredExpenses = computed<Expense[]>(() => {
+    if(!!this.selectedCategory()) {
+       return this.expenses().filter(expense =>
+        expense.category.includes(this.selectedCategory()!)
+      )
+    } else {
+      return this.expenses()
+    }
+  });
+
+
   constructor() {
     effect(() => {
-      if(!this.modalStatus()?.action !== null && this.selectedCategory() === null) {
+      if(this.modalStatus()?.action === null && this.selectedCategory() === null) {
         this.expensesService.getAllExpenses().subscribe({
           next: results => {
             this.expenses.set(results)
-            this.expensesCopy = [...results]
           }
         })
       }
 
-      if(!!this.selectedCategory()) {
-        console.log(this.expensesCopy)
-        const results = this.expensesCopy.filter(elem => elem.category === this.selectedCategory())
-        console.log(results)
-        this.expenses.set(results)
-      }
+      // if(!!this.selectedCategory()) {
+      //   console.log(this.expensesCopy)
+      //   const results = this.expensesCopy.filter(elem => elem.category === this.selectedCategory())
+      //   console.log(results)
+      //   this.expenses.set(results)
+      // }
 
     });
   }

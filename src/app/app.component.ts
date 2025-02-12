@@ -33,7 +33,7 @@ export class AppComponent {
     this.modalStatus.set({isOpen: event.isOpen, expense: event.expense, action: event.action});
   }
 
-  handleCategoryFilter(event: string) {
+  handleCategoryFilter(event: string | null) {
     this.selectedCategory.set(event);
   }
 

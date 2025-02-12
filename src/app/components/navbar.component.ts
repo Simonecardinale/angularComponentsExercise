@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-navbar',
   imports: [],
   template: `
-    <div class="w-full px-4 py-3 border-b border-b-gray-300 flex justify-center">
+    <div id="navbar" class="w-full px-4 py-3 border-b border-b-gray-300 flex justify-center">
       <p class="text-xl font-bold">EXPENSE TRACKER</p>
     </div>
   `,

@@ -9,7 +9,7 @@ import {Button} from 'primeng/button';
   selector: 'app-category-filter',
   imports: [AutoCompleteModule, FormsModule, Button],
   template: `
-    <div class="flex">
+    <div id="filter" class="flex">
       <p-autocomplete [(ngModel)]="value" [dropdown]="true" (onSelect)="handleSelectedCategory($event)" [suggestions]="categories()" (completeMethod)="search()" />
       <p-button label="Reset" (onClick)="reset()"></p-button>
     </div>
@@ -22,6 +22,7 @@ export class CategoryFilterComponent {
   expenseService: ExpenseService = inject(ExpenseService)
   selectedCategory = output<string | null>()
   value = signal<string | null>(null)
+
 
   handleSelectedCategory(event: AutoCompleteSelectEvent) {
     this.selectedCategory.emit(event.value)
